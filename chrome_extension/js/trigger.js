@@ -2,19 +2,31 @@
 (async() => {
   await getUsdExchangeRate();
   getPrices("standard");
-  getPrices("search");
 
   // Trigger recursivo
   MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
   const observer = new MutationObserver(function(mutations, observer) {
     getPrices("standard");
-    getPrices("search");
   });
 
   observer.observe(document, {
     subtree: true,
     attributes: true
   });
+
+
+  // Observador de contenedor de Search
+  const searchDiv = document.querySelector('div[id*="searchSuggestion"]');
+  if (searchDiv) {
+      const observer = new MutationObserver((mutations) => {
+        getPrices("search");
+      });
+
+      observer.observe(searchDiv, {
+          childList: true,
+          subtree: true
+      });
+  }
 
 })();
 

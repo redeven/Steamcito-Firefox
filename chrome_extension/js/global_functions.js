@@ -21,7 +21,6 @@ function getPrices(type){
         },1000)
     } 
     else if(type == "search"){
-        console.log("Corriendo función de búsqueda de precios...");
         const divs = findPricesInSearch();
         divs.forEach(div => setArgentinaPrice(div));
     }
@@ -489,19 +488,19 @@ function stringToDate(dateStr)
 function findPricesInSearch() {
     const searchElements = document.querySelectorAll('div[id*=searchSuggestion] a.Focusable div');
     const validPriceElements = [];
+
     searchElements.forEach(element => {
+        if (element.querySelector('div')) return;
         const text = element.innerText.trim();
         const priceRegex = /^\$\d+\.\d{2}$/;
-        
         if (priceRegex.test(text)) {
             validPriceElements.push(element);
         }
     });
-    
-    console.log('Elementos con precios válidos encontrados:', validPriceElements);
-    
+    // console.log('Elementos con precios válidos encontrados:', validPriceElements);
     return validPriceElements;
 }
+
 
 getArgentinaGames();
 getOwnedGames();
