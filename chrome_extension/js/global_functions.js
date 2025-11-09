@@ -12,12 +12,19 @@ function getPrices(type){
                 setArgentinaPrice(dlcPrice);
             }
         });
-        prices.forEach(price => setArgentinaPrice(price));
+        prices.forEach(price => {
+            setArgentinaPrice(price)
+        } );
     } else if(type == "cart"){
         setTimeout(() => {
             return renderCart();
         },1000)
     } 
+    else if(type == "search"){
+        console.log("Corriendo función de búsqueda de precios...");
+        const divs = findPricesInSearch();
+        divs.forEach(div => setArgentinaPrice(div));
+    }
     else if(type == "wishlist"){
         setInterval(() => {
             let divs = document.querySelectorAll('div.Panel div');
@@ -478,6 +485,23 @@ function stringToDate(dateStr)
 	};
 }
 
+
+function findPricesInSearch() {
+    const searchElements = document.querySelectorAll('div[id*=searchSuggestion] a.Focusable div');
+    const validPriceElements = [];
+    searchElements.forEach(element => {
+        const text = element.innerText.trim();
+        const priceRegex = /^\$\d+\.\d{2}$/;
+        
+        if (priceRegex.test(text)) {
+            validPriceElements.push(element);
+        }
+    });
+    
+    console.log('Elementos con precios válidos encontrados:', validPriceElements);
+    
+    return validPriceElements;
+}
 
 getArgentinaGames();
 getOwnedGames();
