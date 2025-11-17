@@ -135,7 +135,7 @@ function getReviewLink(){
 }
 
 function setInitialLocalStates(){
-    localStorage.getItem('national-tax') ? nationalTax.value = localStorage.getItem('national-tax') : localStorage.setItem('national-tax',21);
+    localStorage.getItem('national-tax') && localStorage.getItem('national-tax') != '0' ? nationalTax.value = localStorage.getItem('national-tax') : localStorage.setItem('national-tax',21);
     localStorage.getItem('province-tax') ? provinceTax.value=localStorage.getItem('province-tax') : localStorage.removeItem('province-tax');
     localStorage.getItem('manual-mode') ? selectManualMode.value=localStorage.getItem('manual-mode') : localStorage.removeItem('manual-mode');
     localStorage.getItem('estilo-barra') ? selectBarStyle.value=localStorage.getItem('estilo-barra') : localStorage.removeItem('estilo-barra');
@@ -158,6 +158,8 @@ function changePaymentMethodState(e){
     let value = e?.currentTarget?.value || e
 
     let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta')).taxAmount || 21 
+
+    console.log("Tarjeta Tax es", tarjetaTax);
 
     localStorage.setItem('metodo-de-pago', value)
     switch (value) {

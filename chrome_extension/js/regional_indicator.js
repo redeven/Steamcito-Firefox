@@ -136,7 +136,7 @@ const getExchangeRate = async () => {
     let exchangeRateCryptoDate = JSON.parse(localStorage.getItem('steamcito-cotizacion-crypto'))?.rateDateProvided;
     let exchangeRateMep = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.rate;
     let exchangeRateMepDate = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.rateDateProvided;
-    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.taxAmount || 60
+    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.taxAmount || 21
     let cryptoTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-crypto'))?.taxAmount || 0
     let mepTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.taxAmount || 21
 
