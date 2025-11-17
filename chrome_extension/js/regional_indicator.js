@@ -36,6 +36,11 @@ const isFromArgentina = () => {
 }
 
 const renderArgentinaIndicator = (matchingGame) => {
+    let orgulloArgentinoHidden = localStorage.getItem('ocultar-orgullo-argentino');
+    if (orgulloArgentinoHidden == "ocultar") {
+        return;
+    }
+    
     let gameName = document.querySelector('#appHubAppName');
     let targetContainer = document.querySelector('.leftcol.game_description_column');
     
@@ -131,7 +136,7 @@ const getExchangeRate = async () => {
     let exchangeRateCryptoDate = JSON.parse(localStorage.getItem('steamcito-cotizacion-crypto'))?.rateDateProvided;
     let exchangeRateMep = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.rate;
     let exchangeRateMepDate = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.rateDateProvided;
-    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.taxAmount || 60
+    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.taxAmount || 21
     let cryptoTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-crypto'))?.taxAmount || 0
     let mepTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.taxAmount || 21
 
@@ -272,10 +277,10 @@ const renderCryptoPrice = async (appData) => {
 
             <div class="steamcito_saving_tip_text">
                 <p class="steamcito_saving_tip_text_main">
-                    <span class="steamcito_saving_tip_green">Precio con Astropay: ${numberToString(cryptoPrice)}</span>
+                    <span class="steamcito_saving_tip_green">Precio con Astropay Local: ${numberToString((cardPrice * 0.9).toFixed(2))}</span>
                     <br>
                     <span class="steamcito_saving_tip_amount">
-                        Ahorro total: ${numberToString(difference)}
+                        Promoción de 10% de reintegro
                     </span>
 
                 </p>
@@ -288,7 +293,7 @@ const renderCryptoPrice = async (appData) => {
 
 
             <span class="steamcito_crypto_exchangerate">
-                1 USD = ${cryptoExchangeRate.toFixed(2)} ARS
+                1 USD = ${(exchangeRate * 0.9).toFixed(2)} ARS
                 <br>
                 <span class="steamcito_crypto_exchangerate_date">(${cryptoExchangeRateDate})<span>
             </span>            
@@ -313,6 +318,10 @@ const renderCryptoPrice = async (appData) => {
    }
 
 const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypto,exchangeRateCryptoDate,exchangeRateMep,exchangeRateMepDate,tarjetaTax,cryptoTax,mepTax) => {
+    if (indicatorStyle == "barra-oculta") {
+        return;
+    }
+    
     let sidebar = document.querySelector('.rightcol.game_meta_data');
 
     let staticExchangeRate = exchangeRate;
@@ -324,61 +333,24 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
 
     let container = `
         <div class="block responsive_apppage_details_right heading heading_steamcito_3">
-            ¿Cuál es tu método de pago?
+            Cotización del dólar
         </div>
 
         <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper cotizacion-wrapper ${indicatorStyle} content_steamcito_3">
 
-            <p class="reason for dolar_crypto">
-                <span class="name-span">Astropay: 1 USD ≈ ${exchangeRateCrypto.toFixed(2)} ARS</span>
-                <br>
-                <span class="name-smaller">
-                   ${cryptoTax || cryptoTax == 0 ? `Incluye ${cryptoTax}% de impuestos (${exchangeRateCryptoDate}) ` : ""} 
-                </span><br>
-                ${localStorage.getItem('metodo-de-pago') == "steamcito-cotizacion-crypto"
-                    ?
-                    `<span class="name-smaller name-smaller-green">Método de pago seleccionado</span>`
-                    :
-                    ""
-                }
-
-            </p>
-            <br>
             
             <p class="reason for dolar_tarjeta">
-                <span class="name-span">Tarjeta en pesos: 1 USD ≈ ${exchangeRate.toFixed(2)} ARS</span>
+                <span class="name-span">Tarjeta: 1 USD ≈ ${exchangeRate.toFixed(2)} ARS</span>
                 <br>
                 <span class="name-smaller">
-                   ${tarjetaTax ? `Incluye ${tarjetaTax}% de impuestos (${exchangeRateDate}) ` : ""} 
-                </span><br>
-                ${localStorage.getItem('metodo-de-pago') == "steamcito-cotizacion-tarjeta"
-                    ?
-                    `<span class="name-smaller name-smaller-green">Método de pago seleccionado</span>`
-                    :
-                    ""
-                }
-            </p>
-            <br>
-
-            <p class="reason for dolar_mep">
-                <span class="name-span">Tarjeta en dólares: 1 USD ≈ ${exchangeRateMep.toFixed(2)} ARS</span>
-                <br>
-                <span class="name-smaller">
-                   ${mepTax ? `Incluye ${mepTax}% de impuestos (${exchangeRateMepDate}) ` : ""} 
-                </span><br>
-                ${localStorage.getItem('metodo-de-pago') == "steamcito-cotizacion-mep"
-                    ?
-                    `<span class="name-smaller name-smaller-green">Método de pago seleccionado</span>`
-                    :
-                    ""
-                }
-
+                   ${tarjetaTax ? `Incluye ${tarjetaTax}% de impuestos (${exchangeRateDate}) ` : ""}  <br>
+                   Aplica a todas las tarjetas emitidas en Argentina.
+                </span>
             </p>
 
             <div class="DRM_notice">
                 <div>
-                    Conocé cómo pagar con cada método en <br>
-                    <a href="https://steamcito.com.ar/mejor-metodo-de-pago-steam-argentina?ref=steamcito-cotizaciones" target="_blank">Guía - Mejor método de pago en Steam</a>
+                    <a href="https://steamcito.com.ar/mejor-metodo-de-pago-steam-argentina?ref=steamcito-cotizaciones" target="_blank">Ver más información sobre cotizaciones</a>
                 </div>
             </div>
 
@@ -438,6 +410,10 @@ const renderPriceIndicators = (appData) => {
 
 
 const renderRegionalIndicator = (appData, exchangeRate) => {
+    if (indicatorStyle == "barra-oculta") {
+        return;
+    }
+    
     let sidebar = document.querySelector('.rightcol.game_meta_data');
 
     let container =
