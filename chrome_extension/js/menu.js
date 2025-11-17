@@ -135,7 +135,6 @@ function getReviewLink(){
 }
 
 function setInitialLocalStates(){
-    console.log("Seteo los local states");
     localStorage.getItem('national-tax') ? nationalTax.value = localStorage.getItem('national-tax') : localStorage.setItem('national-tax',21);
     localStorage.getItem('province-tax') ? provinceTax.value=localStorage.getItem('province-tax') : localStorage.removeItem('province-tax');
     localStorage.getItem('manual-mode') ? selectManualMode.value=localStorage.getItem('manual-mode') : localStorage.removeItem('manual-mode');
