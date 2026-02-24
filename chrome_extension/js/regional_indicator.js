@@ -608,7 +608,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
                     Hi there! <br>
                     <br>
 
-                    I'm a Steam user from Argentina and wanted to bring something to your attention. Last year, Steam introduced a new LATAM region which includes many countries in Latin America such as mine, and also added suggested prices to make games more affordable while boosting sales.
+                    I'm a Steam user from Argentina and wanted to bring something to your attention. In 2023, Steam introduced a new LATAM region which includes many countries in Latin America such as mine, and also added suggested prices to make games more affordable while boosting sales.
                     <br><br>                 
 
                     Currently, ${appData.name} doesn't have regional pricing here. Would you consider setting a price for our region when you get a chance? This would be greatly appreciated by players across Latin America! <br><br>
