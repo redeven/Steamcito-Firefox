@@ -1369,7 +1369,11 @@ body {
 
     .regional-meter-reason--orange {
       color: #e68f0d;
-    }    
+    }
+
+    .regional-meter-reason--violet {
+      color: #9b59b6;
+    }
   }
 
   .DRM_notice {
@@ -1485,6 +1489,15 @@ body {
     padding-top: 5px;
     margin: 0 3px;
     min-width: fit-content;
+
+    &--excellent {
+      border-color: #71f569;
+      color: #71f569;
+
+      &.regional-meter-bar--selected::before {
+        border-top: 12px solid #71f569;
+      }
+    }
 
     &--cheap {
       border-color: #84b114;

@@ -205,6 +205,7 @@ body.menu-enabled .responsive_page_frame {
 }
 
 .steamcito_crypto_savings {
+  max-width: -moz-fit-content;
   max-width: fit-content;
   margin-bottom: 1rem;
   padding: 15px;
@@ -367,6 +368,7 @@ body.menu-enabled .responsive_page_frame {
 }
 .cart_area_body .tax-container #tax-change {
   display: inline-block;
+  width: -moz-fit-content;
   width: fit-content;
   margin-left: auto;
   margin-top: 0;
@@ -411,12 +413,14 @@ body.menu-enabled .responsive_page_frame {
 
 .curator #RecommendationsRows .store_capsule.price_inline .discount_block {
   display: flex !important;
+  min-width: -moz-fit-content !important;
   min-width: fit-content !important;
 }
 .curator #RecommendationsRows .store_capsule.price_inline .discount_block .discount_prices {
   display: flex;
 }
 .curator #RecommendationsRows .store_capsule.price_inline .discount_block .discount_prices > div {
+  width: -moz-max-content;
   width: max-content;
 }
 .curator #RecommendationsTable .recommendation .discount_block {
@@ -440,6 +444,7 @@ body.menu-enabled .responsive_page_frame {
   flex-shrink: 1 !important;
 }
 .search_area .match_subtitle {
+  max-width: -moz-fit-content;
   max-width: fit-content;
 }
 
@@ -453,15 +458,16 @@ body.menu-enabled .responsive_page_frame {
 }
 
 .search_price_discount_combined .discount_final_price {
+  width: -moz-max-content;
   width: max-content;
 }
 
+.promo_item_list .price span.was {
+  margin-bottom: 2px;
+}
 .promo_item_list .price span {
   display: block;
   text-align: right;
-}
-.promo_item_list .price span.was {
-  margin-bottom: 2px;
 }
 
 .franchise_game.double .discount_block .discount_pct {
@@ -601,8 +607,6 @@ body.menu-enabled .responsive_page_frame {
   height: 100vh;
   width: 25%;
   background-color: #16202d;
-  -webkit-box-shadow: -12px -1px 22px -8px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: -12px -1px 22px -8px rgba(0, 0, 0, 0.75);
   box-shadow: -12px -1px 22px -8px rgba(0, 0, 0, 0.75);
   z-index: 100000;
   transition: all 0.25s ease;
@@ -877,8 +881,6 @@ body.menu-enabled .responsive_page_frame {
   height: auto;
   background: #2E353E;
   z-index: 9999;
-  -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   font-family: "Motiva Sans", sans-serif;
 }
@@ -1079,6 +1081,11 @@ body.menu-enabled .responsive_page_frame {
 .regional-meter-wrapper .reason.info .regional-meter-reason--orange {
   color: #e68f0d;
 }
+.regional-meter-wrapper .reason.against .regional-meter-reason--violet,
+.regional-meter-wrapper .reason.for .regional-meter-reason--violet,
+.regional-meter-wrapper .reason.info .regional-meter-reason--violet {
+  color: #9b59b6;
+}
 .regional-meter-wrapper .DRM_notice {
   font-size: 12px;
 }
@@ -1170,7 +1177,15 @@ body.menu-enabled .responsive_page_frame {
   text-align: center;
   padding-top: 5px;
   margin: 0 3px;
+  min-width: -moz-fit-content;
   min-width: fit-content;
+}
+.regional-meter-container .regional-meter-bar--excellent {
+  border-color: #71f569;
+  color: #71f569;
+}
+.regional-meter-container .regional-meter-bar--excellent.regional-meter-bar--selected::before {
+  border-top: 12px solid #71f569;
 }
 .regional-meter-container .regional-meter-bar--cheap {
   border-color: #84b114;

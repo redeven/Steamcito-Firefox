@@ -27,79 +27,79 @@ let regionalPricingChartLatam = [
     },
     {
         usdPrice: 1.99,
-        argPrice: 1.49
+        argPrice: 1.39
     },
     {
         usdPrice: 2.99,
-        argPrice: 1.99
+        argPrice: 2.19
     },
     {
         usdPrice: 3.99,
-        argPrice: 2.49
+        argPrice: 2.69
     },
     {
         usdPrice: 4.99,
-        argPrice: 2.99
+        argPrice: 3.29
     },
     {
         usdPrice: 5.99,
-        argPrice: 3.59
-    },
-    {
-        usdPrice: 6.99,
         argPrice: 3.99
     },
     {
-        usdPrice: 7.99,
-        argPrice: 4.49
+        usdPrice: 6.99,
+        argPrice: 4.69
     },
     {
-        usdPrice: 8.99,
+        usdPrice: 7.99,
         argPrice: 4.99
     },
     {
-        usdPrice: 9.99,
+        usdPrice: 8.99,
         argPrice: 5.79
     },
     {
-        usdPrice: 10.99,
+        usdPrice: 9.99,
         argPrice: 6.29
     },
     {
+        usdPrice: 10.99,
+        argPrice: 6.69
+    },
+    {
         usdPrice: 11.99,
-        argPrice: 6.59
+        argPrice: 6.99
     },
     {
         usdPrice: 12.99,
-        argPrice: 7.29
+        argPrice: 7.49
     },
     {
         usdPrice: 13.99,
-        argPrice: 7.79
+        argPrice: 8.09
     },
     {
         usdPrice: 14.99,
-        argPrice: 7.99
+        argPrice: 8.55
     },
     {
         usdPrice: 15.99,
-        argPrice: 8.49
+        argPrice: 9.09
     },
     {
         usdPrice: 16.99,
-        argPrice: 8.99
+        argPrice: 9.55
     },
     {
         usdPrice: 17.99,
-        argPrice: 9.29
+        argPrice: 9.95
     },
     {
         usdPrice: 18.99,
-        argPrice: 9.89
+        argPrice: 10.49
     },
     {
         usdPrice: 19.99,
-        argPrice: 10.49
+        argPrice: 10.99
     },
     {
         usdPrice: 24.99,
@@ -107,19 +107,19 @@ let regionalPricingChartLatam = [
     },
     {
         usdPrice: 29.99,
-        argPrice: 14.99
+        argPrice: 14.49
     },
     {
         usdPrice: 34.99,
-        argPrice: 17.99
+        argPrice: 16.49
     },
     {
         usdPrice: 39.99,
-        argPrice: 18.99
+        argPrice: 18.49
     },
     {
         usdPrice: 44.99,
-        argPrice: 20.99
+        argPrice: 20.49
     },
     {
         usdPrice: 49.99,
@@ -127,11 +127,11 @@ let regionalPricingChartLatam = [
     },
     {
         usdPrice: 54.99,
-        argPrice: 25.99
+        argPrice: 25.49
     },
     {
         usdPrice: 59.99,
-        argPrice: 26.99
+        argPrice: 28.25
     },
     {
         usdPrice: 64.99,
@@ -139,7 +139,7 @@ let regionalPricingChartLatam = [
     },
     {
         usdPrice: 69.99,
-        argPrice: 32.99
+        argPrice: 31.99
     },
     {
         usdPrice: 74.99,
@@ -155,29 +155,209 @@ let regionalPricingChartLatam = [
     },
     {
         usdPrice: 89.99,
-        argPrice: 41.99
+        argPrice: 39.99
     },
     {
         usdPrice: 99.99,
         argPrice: 45.99
     },
     {
+        usdPrice: 109.99,
+        argPrice: 50.99
+    },
+    {
         usdPrice: 119.99,
-        argPrice: 55.99
+        argPrice: 54.99
     },
     {
         usdPrice: 129.99,
         argPrice: 59.99
     },
     {
+        usdPrice: 139.99,
+        argPrice: 64.99
+    },
+
+    {
         usdPrice: 149.99,
-        argPrice: 69.99
+        argPrice: 68.99
     },
     {
         usdPrice: 199.99,
-        argPrice: 92.99
+        argPrice: 89.99
     },
 ]
+
+
+
+let regionalPricingChartLatamPPP = [
+    {
+        usdPrice: 0.99,
+        argPrice: 0.45
+    },
+    {
+        usdPrice: 1.99,
+        argPrice: 0.55
+    },
+    {
+        usdPrice: 2.99,
+        argPrice: 0.65
+    },
+    {
+        usdPrice: 3.99,
+        argPrice: 0.85
+    },
+    {
+        usdPrice: 4.99,
+        argPrice: 1.09
+    },
+    {
+        usdPrice: 5.99,
+        argPrice: 1.29
+    },
+    {
+        usdPrice: 6.99,
+        argPrice: 1.55
+    },
+    {
+        usdPrice: 7.99,
+        argPrice: 1.75
+    },
+    {
+        usdPrice: 8.99,
+        argPrice: 1.99
+    },
+    {
+        usdPrice: 9.99,
+        argPrice: 2.19
+    },
+    {
+        usdPrice: 10.99,
+        argPrice: 2.39
+    },
+    {
+        usdPrice: 11.99,
+        argPrice: 2.65
+    },
+    {
+        usdPrice: 12.99,
+        argPrice: 2.85
+    },
+    {
+        usdPrice: 13.99,
+        argPrice: 3.09
+    },
+    {
+        usdPrice: 14.99,
+        argPrice: 3.29
+    },
+    {
+        usdPrice: 15.99,
+        argPrice: 3.49
+    },
+    {
+        usdPrice: 16.99,
+        argPrice: 3.75
+    },
+    {
+        usdPrice: 17.99,
+        argPrice: 3.95
+    },
+    {
+        usdPrice: 18.99,
+        argPrice: 4.19
+    },
+    {
+        usdPrice: 19.99,
+        argPrice: 4.39
+    },
+    {
+        usdPrice: 24.99,
+        argPrice: 5.49
+    },
+    {
+        usdPrice: 29.99,
+        argPrice: 6.59
+    },
+    {
+        usdPrice: 34.99,
+        argPrice: 7.69
+    },
+    {
+        usdPrice: 39.99,
+        argPrice: 8.79
+    },
+    {
+        usdPrice: 44.99,
+        argPrice: 9.89
+    },
+    {
+        usdPrice: 49.99,
+        argPrice: 10.99
+    },
+    {
+        usdPrice: 54.99,
+        argPrice: 11.99
+    },
+    {
+        usdPrice: 59.99,
+        argPrice: 13.25
+    },
+    {
+        usdPrice: 64.99,
+        argPrice: 14.25
+    },
+    {
+        usdPrice: 69.99,
+        argPrice: 15.49
+    },
+    {
+        usdPrice: 74.99,
+        argPrice: 16.49
+    },
+    {
+        usdPrice: 79.99,
+        argPrice: 17.49
+    },
+    {
+        usdPrice: 84.99,
+        argPrice: 18.75
+    },
+    {
+        usdPrice: 89.99,
+        argPrice: 19.75
+    },
+    {
+        usdPrice: 99.99,
+        argPrice: 21.99
+    },
+    {
+        usdPrice: 109.99,
+        argPrice: 24.25
+    },
+    {
+        usdPrice: 119.99,
+        argPrice: 26.49
+    },
+    {
+        usdPrice: 129.99,
+        argPrice: 28.49
+    },
+    {
+        usdPrice: 139.99,
+        argPrice: 30.75
+    },
+
+    {
+        usdPrice: 149.99,
+        argPrice: 32.99
+    },
+    {
+        usdPrice: 199.99,
+        argPrice: 43.99
+    },
+]
+
 
 const regionalPricingOptionsLatam = regionalPricingChartLatam.map(item => item.usdPrice)
 
