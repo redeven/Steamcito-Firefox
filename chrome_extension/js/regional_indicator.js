@@ -466,7 +466,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
                 <span>Muy bueno</span>
             </div>
             <div class="regional-meter-bar regional-meter-bar--excellent ${appData.regionalStatus == "excellent" && "regional-meter-bar--selected"}">
-                <span>Excelente</span>
+                <span>Increíble</span>
             </div>
         </div>
 
