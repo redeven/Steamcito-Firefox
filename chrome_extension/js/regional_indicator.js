@@ -407,7 +407,7 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
 const renderPriceIndicators = (appData) => {
     return(`
         <p class="reason info">
-            Precio sugerido por Valve en Argentina <br><span class="regional-meter-price">ARS$ ${appData.recommendedArsPrice.toFixed(2)}</span>
+            Precio sugerido para Argentina <br><span class="regional-meter-price">ARS$ ${appData.recommendedArsPrice.toFixed(2)}</span>
             ${appData.discount != 0 
                 ?
                 `<span class="regional-meter-price steamcito-strikethrough-price">ARS$ ${appData.baseRecommendedArsPrice}</span>`
@@ -608,6 +608,8 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
         `
             : ""
         }
+
+        <p class="regional-meter-disclaimer">Análisis basado en la <a href="https://partner.steamgames.com/pricing/explorer" target="_blank">herramienta oficial de fijación de precios regionales de Valve.</a></p>
 
     </div>
 

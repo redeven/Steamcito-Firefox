@@ -265,9 +265,12 @@ function renderPrices(price){
     // Fix para contenedores que intercalan un BR entre precio original y precio en oferta 
     price.classList.contains("was") && sanitizePromoLists();
     
+    // Los precios del bloque regional siempre se muestran inicialmente en USD
+    let forceUsd = price.classList.contains("regional-meter-price");
+
     // Si el saldo te alcanza para comprar el juego
-    if(walletBalance > parseFloat(price.dataset.originalPrice)){
-        price.innerHTML = originalPrice + emojiWallet;     
+    if(forceUsd || walletBalance > parseFloat(price.dataset.originalPrice)){
+        price.innerHTML = originalPrice + (forceUsd ? "" : emojiWallet);
         price.classList.add("original");
 
         // Si tiene un descuento
@@ -275,10 +278,10 @@ function renderPrices(price){
             if(isInsideString(price.previousElementSibling,"$")){
                 price.previousElementSibling.classList.add('original');
                 price.previousElementSibling.classList.remove('argentina');
-                price.previousElementSibling.innerText = numberToStringUsd(price.previousElementSibling.dataset.originalPrice); 
+                price.previousElementSibling.innerText = numberToStringUsd(price.previousElementSibling.dataset.originalPrice);
             }
         }
-    } 
+    }
 
     // Si el saldo no alcanza
     else{

@@ -1093,6 +1093,15 @@ body.menu-enabled .responsive_page_frame {
   color: #fff !important;
   text-decoration: underline;
 }
+.regional-meter-wrapper .regional-meter-disclaimer {
+  font-size: 11px !important;
+  color: #8f98a0 !important;
+  margin-top: 16px;
+}
+.regional-meter-wrapper .regional-meter-disclaimer a {
+  color: #8f98a0 !important;
+  text-decoration: underline;
+}
 
 .rightcol.game_meta_data {
   display: flex;
