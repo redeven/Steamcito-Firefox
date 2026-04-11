@@ -1100,6 +1100,15 @@ body.menu-enabled .responsive_page_frame {
 }
 .rightcol.game_meta_data .heading_steamcito_1 {
   order: -6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rightcol.game_meta_data .heading_steamcito_1 span {
+  opacity: 0.5;
+  font-family: "Motiva Sans", Sans-serif;
+  font-weight: 300;
+  font-size: 10px;
 }
 .rightcol.game_meta_data .content_steamcito_1 {
   order: -5;

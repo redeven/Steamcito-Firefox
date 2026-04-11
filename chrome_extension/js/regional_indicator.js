@@ -449,7 +449,9 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     let container =
         `
     <div class="block responsive_apppage_details_right heading heading_steamcito_1">
-        Análisis de precio regional
+        <p>Análisis de precio regional</p>    
+        <span>por Steamcito</span>
+    
     </div>
     <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1">
         <div class="regional-meter-container">
