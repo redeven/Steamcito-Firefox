@@ -27,7 +27,6 @@ body.menu-enabled .responsive_page_frame {
 }
 body .responsive_page_frame {
   filter: none;
-  transition: all 0.5s ease;
 }
 
 .steamcito_argentina_owned_games .focus {
@@ -109,6 +108,9 @@ body .responsive_page_frame {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+.steamcito_saving_tip:hover {
+  background-color: #4c6b22;
+}
 .steamcito_saving_tip .steamcito_saving_tip_close {
   color: rgb(172, 178, 184);
   position: absolute;
@@ -116,7 +118,7 @@ body .responsive_page_frame {
   top: 0.25rem;
 }
 .steamcito_saving_tip .steamcito_saving_tip_close:hover {
-  background-color: #4c6b22;
+  color: #fff;
 }
 .steamcito_saving_tip .steamcito_saving_tip_icon {
   font-size: 1.75rem;
@@ -187,7 +189,7 @@ body .responsive_page_frame {
 }
 
 .steamcito_cart_exchangerate {
-  max-width: 280px;
+  max-width: 100%;
   background-color: rgba(0, 0, 0, 0.25);
   margin-bottom: 1rem;
   padding: 15px;
@@ -203,7 +205,7 @@ body .responsive_page_frame {
 }
 
 .steamcito_crypto_savings {
-  max-width: 280px;
+  max-width: fit-content;
   margin-bottom: 1rem;
   padding: 15px;
   background-color: #4c6b22;
@@ -225,7 +227,7 @@ body .responsive_page_frame {
 }
 
 .steamcito_cart {
-  max-width: 280px;
+  max-width: 100%;
   background-color: rgba(0, 0, 0, 0.25);
   margin-bottom: 1rem;
   padding: 15px;
@@ -358,6 +360,10 @@ body .responsive_page_frame {
   font-size: 1.4em;
   padding-top: 0;
   display: inline;
+}
+.cart_area_body .tax-container .taxes-final-total {
+  display: flex;
+  align-items: center;
 }
 .cart_area_body .tax-container #tax-change {
   display: inline-block;
@@ -730,7 +736,6 @@ body .responsive_page_frame {
   background: none;
   border: none;
   width: 100%;
-  -moz-appearance: textfield;
 }
 .menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion > div .input-container span,
 .menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion > div .input-container span {
@@ -874,10 +879,6 @@ body .responsive_page_frame {
   color: #fff !important;
 }
 
-.regional-meter-wrapper.barra-minificada.cotizacion-wrapper .reason:before, .regional-meter-wrapper.barra-minificada.content_steamcito_2 .reason:before {
-  opacity: 1;
-}
-
 .aviso-devolucion {
   display: flex;
   justify-content: space-between;
@@ -983,7 +984,7 @@ body .responsive_page_frame {
 .regional-meter-wrapper.barra-minificada.content_steamcito_3 {
   max-height: 40px;
 }
-.regional-meter-wrapper.barra-minificada.cotizacion-wrapper .reason:before {
+.regional-meter-wrapper.barra-minificada.cotizacion-wrapper .reason:before, .regional-meter-wrapper.barra-minificada.content_steamcito_2 .reason:before {
   opacity: 1;
 }
 .regional-meter-wrapper.barra-minificada {
@@ -1060,7 +1061,7 @@ body .responsive_page_frame {
 .regional-meter-wrapper .reason.against span.name-smaller,
 .regional-meter-wrapper .reason.for span.name-smaller,
 .regional-meter-wrapper .reason.info span.name-smaller {
-  font-size: 0.72rem;
+  font-size: 0.73rem;
   color: #969696;
 }
 .regional-meter-wrapper .reason.against span.name-smaller.name-smaller-green,
@@ -1156,7 +1157,7 @@ body .responsive_page_frame {
 }
 
 .store_nav .tab > span {
-  padding: 0 9px !important;
+  padding: 0 7px !important;
   line-height: 33px !important;
 }
 

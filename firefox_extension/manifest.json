@@ -1,8 +1,16 @@
  {
- 	"name": "Steamcito: Steam con impuestos Argentina 2025",
- 	"version": "3.96",
+ 	"name": "Steamcito Redux",
+ 	"version": "4.0.1",
  	"description": "Muestra todos los productos de la tienda de Steam en pesos argentinos con impuestos incluidos",
  	"manifest_version": 2,
+	"browser_specific_settings": {
+    "gecko": {
+      "id": "@steamcito-redux",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
  	"background": {
  		"scripts": ["js/background.js"],
  		"persistent": false

@@ -38,7 +38,7 @@ function renderOwnedArgentinaGames(gamesIds){
     <div class="top_new_releases_banner_ctn">
         <a href="#" class="top_new_releases_banner_click">
             <div class="title">
-            <img class="title_ico" src="${chrome.runtime.getURL("emojis/argentina-flag-ico.png")}"/> Desarrollados en Argentina <img class="title_ico" src="${chrome.runtime.getURL("emojis/argentina-flag-ico.png")}"/>
+            <img class="title_ico" src="${browser.runtime.getURL("emojis/argentina-flag-ico.png")}"/> Desarrollados en Argentina <img class="title_ico" src="${browser.runtime.getURL("emojis/argentina-flag-ico.png")}"/>
             
             </div>
             <div class="dateline">Tenés ${gamesIds.length} juegos argentinos en tu biblioteca de Steam</div>

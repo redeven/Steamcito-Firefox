@@ -1,7 +1,7 @@
 function createMenus() {
 
     let oldMenu = document.querySelector("#global_action_menu") || document.querySelector('#checkout_steam_logo span');
-    let steamcitoIcon =
+    let steamcitoIcon = 
     `<div class="ico-steamcito"> 
         🧉
     </div>`;
@@ -13,7 +13,7 @@ function createMenus() {
     <div class="menu-steamcito-background"></div>
     <div class="menu-steamcito">
             <div class="internal-menu">
-                <span class="titulo">CONFIGURACIÓN DE STEAMCITO <br><span class="titulo__version"> Versión ${chrome.runtime.getManifest().version}</span></span>
+                <span class="titulo">CONFIGURACIÓN DE STEAMCITO <br><span class="titulo__version"> Versión ${browser.runtime.getManifest().version}</span></span>
 
                 <div class="opciones-avanzadas-steamcito">
 
@@ -24,10 +24,7 @@ function createMenus() {
                             <div>
                                 <label for="metodo-de-pago-opciones">Tu método de pago</label>
                                 <select name="" id="metodo-de-pago-opciones">
-                                    <option value="steamcito-cotizacion-tarjeta">🧉 Tarjeta en pesos</option>
-                                    <option value="steamcito-cotizacion-mep">💸 Tarjeta en dólares</option>
-                                    <option value="steamcito-cotizacion-crypto">🚀 Astropay</option>
-
+                                    <option value="steamcito-cotizacion-tarjeta">🧉 Tarjeta emitida en Argentina</option>
                                 </select>
                             </div>
                             <small><a target="_blank" href='https://steamcito.com.ar/mejor-metodo-de-pago-steam-argentina?ref=steamcito-menu' style="display:inline">Ver listado de medios de pago.</a></small>
@@ -138,17 +135,18 @@ function getReviewLink() {
     return navigator.userAgent.indexOf('Firefox') != -1 ? firefoxLink : chromeLink;
 }
 
-function setInitialLocalStates() {
-    localStorage.getItem('national-tax') ? nationalTax.value = localStorage.getItem('national-tax') : localStorage.setItem('national-tax',60);
-    localStorage.getItem('province-tax') ? provinceTax.value = localStorage.getItem('province-tax') : localStorage.removeItem('province-tax');
-    localStorage.getItem('manual-mode') ? selectManualMode.value = localStorage.getItem('manual-mode') : localStorage.removeItem('manual-mode');
+function setInitialLocalStates(){
+    localStorage.getItem('national-tax') && localStorage.getItem('national-tax') != '0' ? nationalTax.value = localStorage.getItem('national-tax') : localStorage.setItem('national-tax',21);
+    localStorage.getItem('province-tax') ? provinceTax.value=localStorage.getItem('province-tax') : localStorage.removeItem('province-tax');
+    localStorage.getItem('manual-mode') ? selectManualMode.value=localStorage.getItem('manual-mode') : localStorage.removeItem('manual-mode');
     localStorage.getItem('estilo-barra') ? selectBarStyle.value=localStorage.getItem('estilo-barra') : localStorage.removeItem('estilo-barra');
-    localStorage.getItem('metodo-de-pago') ? selectPaymentMethod.value=localStorage.getItem('metodo-de-pago') : localStorage.setItem('metodo-de-pago','steamcito-cotizacion-tarjeta');
+    localStorage.getItem('metodo-de-pago') != "steamcito-cotizacion-tarjeta" ? localStorage.setItem('metodo-de-pago','steamcito-cotizacion-tarjeta') : "" ;
     localStorage.getItem('ocultar-crypto') ? checkboxDolarCrypto.value=localStorage.getItem('ocultar-crypto') : localStorage.removeItem('ocultar-crypto');
     localStorage.getItem('ocultar-orgullo-argentino') ? checkboxOrgulloArgentino.value=localStorage.getItem('ocultar-orgullo-argentino') : localStorage.removeItem('ocultar-orgullo-argentino');
 }
 
 function changeBarStyleState(){
+    selectBarStyle.value == 'barra-normal' ? localStorage.setItem('estilo-barra','barra-normal') : localStorage.setItem('estilo-barra','barra-minificada');
     let style = selectBarStyle.value;
     if (style == 'barra-normal') localStorage.setItem('estilo-barra','barra-normal');
     if (style == 'barra-oculta') localStorage.setItem('estilo-barra','barra-oculta');
@@ -158,9 +156,7 @@ function changeBarStyleState(){
 function changePaymentMethodState(e){
     let value = e?.currentTarget?.value || e
 
-    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta')).taxAmount || 60 
-    let cryptoTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-crypto')).taxAmount || 0
-    let mepTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep')).taxAmount || 21
+    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta')).taxAmount || 21 
 
 
     localStorage.setItem('metodo-de-pago', value)
@@ -171,13 +167,16 @@ function changePaymentMethodState(e){
             break;
 
         case "steamcito-cotizacion-crypto": 
-            localStorage.setItem('national-tax',cryptoTax)
-            nationalTax.value = cryptoTax;
+            localStorage.setItem('national-tax',tarjetaTax)
+            localStorage.setItem('metodo-de-pago','steamcito-cotizacion-tarjeta');
+            nationalTax.value = tarjetaTax;
             break;            
  
         case "steamcito-cotizacion-mep": 
-            localStorage.setItem('national-tax',mepTax)
-            nationalTax.value = mepTax;
+            localStorage.setItem('national-tax',tarjetaTax)
+            localStorage.setItem('metodo-de-pago','steamcito-cotizacion-tarjeta');
+
+            nationalTax.value = tarjetaTax;
             break;                    
 
         default: localStorage.setItem('national-tax',nationalTax)
@@ -199,7 +198,7 @@ function changeManualModeState() {
     } else {
         selectManualMode.value == 'mate' ? localStorage.setItem('manual-mode', 'mate') : localStorage.setItem('manual-mode', 'wallet');
     }
-
+    
 }
 
 function changeNationalTax() {
@@ -232,11 +231,11 @@ function setEmojis(){
     if(paymentMethod == "steamcito-cotizacion"){
         return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>']
     } else if(paymentMethod == "steamcito-cotizacion-crypto"){
-        return ['<span class="emojis">🚀</span>','<span class="emojis">💲</span>']
+        return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>']
     } else if(paymentMethod == "steamcito-cotizacion-mep"){
-        return ['<span class="emojis">💸</span>','<span class="emojis">💲</span>']   
+        return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>']   
     } 
-    return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>'];    
+    return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>'];        
 }
 
 // Inicializo Menú 

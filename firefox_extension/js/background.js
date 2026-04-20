@@ -1,1 +1,1 @@
-chrome.storage.local.set({justUpdated: 1});
+browser.storage.local.set({justUpdated: 1});

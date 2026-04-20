@@ -243,7 +243,7 @@ const priceContainers = `
         .regional-meter-price:not([${attributeName}]),
         .StoreSalePriceWidgetContainer.Discounted >div >div:not([${attributeName}]),
         .StoreSalePriceWidgetContainer:not(.Discounted) >div:not([${attributeName}]),
-        .AppCapsuleCtn >span >span:not([${attributeName}])      
+        .AppCapsuleCtn >span >span:not([${attributeName}])
         `;
 
 
@@ -271,7 +271,7 @@ function calcularImpuestos(initialPrice) {
 }
 
 
-function calculateTaxesAndExchange(initialPrice,exchangeRate = "unset") {
+ function calculateTaxesAndExchange(initialPrice,exchangeRate = "unset") {
 
     if(exchangeRate=="unset"){
         exchangeRate = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta')).rate;
@@ -439,8 +439,8 @@ function renderArgentinaShortcut(){
         let navbarFirstItem = navbar.querySelector('div:first-child');
         if(navbarFirstItem){
             let argentinaShortcut = `
-            <a class="tab tab-videojuegos-argentinos" href="https://steamcito.com.ar/videojuegos-argentinos" target="_blank">
-                <span> <img src="${browser.runtime.getURL('emojis/argentina-flag-ico.png')}"/> Juegos Argentinos </span>
+            <a class="tab tab-videojuegos-argentinos" href="https://videojuegosargentinos.com.ar/" target="_blank">
+                <span> <img src="${browser.runtime.getURL("emojis/argentina-flag-ico.png")}"/> Juegos Argentinos </span>
             </a>
             `    
             navbarFirstItem.insertAdjacentHTML('afterend',argentinaShortcut)
@@ -451,13 +451,13 @@ function renderArgentinaShortcut(){
 const currentChange = "patch"; // patch | minor | major
 
 function showUpdate() {
-    chrome.storage.local.get(['justUpdated'], function (result) {
+    browser.storage.local.get(['justUpdated'], function (result) {
 
         // Si es la primera vez que se abre desde la actualización
         if (result.justUpdated == 1 && currentChange == "major") {
             let header = document.querySelector('#global_header');
             let changelogUrl = 'https://steamcito.com.ar/changelog'
-            let newVersion = chrome.runtime.getManifest().version;
+            let newVersion = browser.runtime.getManifest().version;
 
             let updateAdvice = `
                 <div class="actualizacion-steamcito">
@@ -468,7 +468,7 @@ function showUpdate() {
             `;
 
             header.insertAdjacentHTML('afterend', DOMPurify.sanitize(updateAdvice));
-            chrome.storage.local.set({ justUpdated: 0 });
+            browser.storage.local.set({ justUpdated: 0 });
         }
     });
 }
