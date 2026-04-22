@@ -580,7 +580,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
         </p>
         <hr>
         <p class="reason for">
-        <span class="name-span">${appData.publisher}</span> se basó en el índice de paridad de poder adquisitivo para nuestra región (PPP).
+        <span class="name-span">${appData.publisher}</span> cargó un precio basado en el índice de paridad de poder adquisitivo para nuestra región.
         <br><br>
         ${admirePublisher(appData.publisher)}
         </p>
