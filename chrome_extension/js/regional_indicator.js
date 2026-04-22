@@ -106,6 +106,22 @@ const renderArgentinaIndicator = (matchingGame) => {
 
 }
 
+
+const admirePublisher = (publisher) => {
+
+    const phrases = [
+        `¡Te queremos mucho ${publisher}!`,
+        `¡Te amamos ${publisher}!`,
+        `¡Tenés que cerrar el estadio ${publisher}!`,
+        `¡Genio ${publisher}!`,
+        `¡Gracias ${publisher}!`,
+        `¡Bien ahí ${publisher}!`,
+        `¡Sos groso ${publisher}!`
+    ]
+
+    return phrases[Math.floor(Math.random() * phrases.length)];
+}
+
 const criticizePublisher = (margin,publisher) => {
 
     const phrases = [
@@ -207,6 +223,11 @@ const getAppPricing = async (appInitialData) => {
         appData.recommendedArsPrice = recommendedArsPrice;
         appData.baseRecommendedArsPrice = baseRecommendedArsPrice;
 
+        const pppPrice = regionalPricingChartLatamPPP
+            .filter(item => item.usdPrice == nearestOption)
+            .map(item => item.argPrice)[0] * (100 - appData.discount) / 100;
+        appData.pppPrice = pppPrice;
+
         // Tiene el mismo precio que en Estados Unidos
         if (appData.arsPrice == appData.usdPrice) {
             appData.regionalDifference = 0;
@@ -225,6 +246,15 @@ const getAppPricing = async (appInitialData) => {
         else if (appData.arsPrice == appData.recommendedArsPrice) {
             appData.regionalStatus = "fair";
             appData.regionalDifference = 0;
+        }
+
+        // Excellent: precio dentro del 20% del PPP
+        if (appData.pppPrice && appData.regionalStatus !== "expensive") {
+            const pppDifference = Math.abs(appData.arsPrice - appData.pppPrice) / appData.pppPrice;
+            if (pppDifference <= 0.20) {
+                appData.regionalStatus = "excellent";
+                appData.pppDifference = Math.round(pppDifference * 100);
+            }
         }
 
         renderRegionalIndicator(appData, exchangeRate);
@@ -377,7 +407,7 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
 const renderPriceIndicators = (appData) => {
     return(`
         <p class="reason info">
-            Precio sugerido por Valve en Argentina <br><span class="regional-meter-price">ARS$ ${appData.recommendedArsPrice.toFixed(2)}</span>
+            Precio sugerido para Argentina <br><span class="regional-meter-price">ARS$ ${appData.recommendedArsPrice.toFixed(2)}</span>
             ${appData.discount != 0 
                 ?
                 `<span class="regional-meter-price steamcito-strikethrough-price">ARS$ ${appData.baseRecommendedArsPrice}</span>`
@@ -419,21 +449,26 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     let container =
         `
     <div class="block responsive_apppage_details_right heading heading_steamcito_1">
-        ¿Cómo es el precio regional?
+        <p>Análisis de precio regional</p>    
+        <span>por Steamcito</span>
+    
     </div>
     <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1">
         <div class="regional-meter-container">
+            <div class="regional-meter-bar regional-meter-bar--expensive ${appData.regionalStatus == "expensive" && "regional-meter-bar--selected"}">
+                <span>No tiene</span>
+            </div>
+            <div class="regional-meter-bar regional-meter-bar--semifair ${appData.regionalStatus == "semifair" && "regional-meter-bar--selected"}">
+                <span>Elevado</span>
+            </div>
+            <div class="regional-meter-bar regional-meter-bar--fair ${appData.regionalStatus == "fair" && "regional-meter-bar--selected"}">
+                <span>Bueno</span>
+            </div>
             <div class="regional-meter-bar regional-meter-bar--cheap ${appData.regionalStatus == "cheap" && "regional-meter-bar--selected"}">
                 <span>Muy bueno</span>
             </div>
-            <div class="regional-meter-bar regional-meter-bar--fair ${appData.regionalStatus == "fair" && "regional-meter-bar--selected"}">
-                <span>Normal</span>
-            </div>
-            <div class="regional-meter-bar regional-meter-bar--semifair ${appData.regionalStatus == "semifair" && "regional-meter-bar--selected"}">
-                <span>Alto</span>
-            </div>            
-            <div class="regional-meter-bar regional-meter-bar--expensive ${appData.regionalStatus == "expensive" && "regional-meter-bar--selected"}">
-                <span>Inexistente</span>
+            <div class="regional-meter-bar regional-meter-bar--excellent ${appData.regionalStatus == "excellent" && "regional-meter-bar--selected"}">
+                <span>Increíble</span>
             </div>
         </div>
 
@@ -537,6 +572,25 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
             : ""
         }
 
+        ${appData.regionalStatus == "excellent"
+            ?
+            `
+        <p class="reason for">
+        <span class="name-span">${appData.name}</span> tiene un precio regional extraordinario.
+        </p>
+        <hr>
+        <p class="reason for">
+        <span class="name-span">${appData.publisher}</span> cargó un precio basado en el índice de paridad de poder adquisitivo para nuestra región.
+        <br><br>
+        ${admirePublisher(appData.publisher)}
+        </p>
+        <hr>
+        ${renderPriceIndicators(appData)}
+
+        `
+            : ""
+        }
+
         ${appData.regionalStatus == "cheap"
             ?
             `
@@ -554,6 +608,8 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
         `
             : ""
         }
+
+        <p class="regional-meter-disclaimer">Análisis basado en la <a href="https://partner.steamgames.com/pricing/explorer" target="_blank">herramienta oficial de fijación de precios regionales de Valve.</a></p>
 
     </div>
 
