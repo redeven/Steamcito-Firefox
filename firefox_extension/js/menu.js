@@ -1,15 +1,13 @@
 function createMenus() {
-
-    let oldMenu = document.querySelector("#global_action_menu") || document.querySelector('#checkout_steam_logo span');
-    let steamcitoIcon = 
-    `<div class="ico-steamcito"> 
+  let oldMenu = document.querySelector('#global_action_menu') || document.querySelector('#checkout_steam_logo span');
+  let steamcitoIcon = `<div class="ico-steamcito"> 
         🧉
     </div>`;
-    oldMenu && oldMenu.insertAdjacentHTML('afterend', DOMPurify.sanitize(steamcitoIcon));
-    steamcitoIcon = document.querySelector(".ico-steamcito");
-    steamcitoIcon && steamcitoIcon.addEventListener('click', showMenu);
+  oldMenu && oldMenu.insertAdjacentHTML('afterend', DOMPurify.sanitize(steamcitoIcon));
+  steamcitoIcon = document.querySelector('.ico-steamcito');
+  steamcitoIcon && steamcitoIcon.addEventListener('click', showMenu);
 
-    let steamcitoMenu = `
+  let steamcitoMenu = `
     <div class="menu-steamcito-background"></div>
     <div class="menu-steamcito">
             <div class="internal-menu">
@@ -126,142 +124,162 @@ function createMenus() {
 
     </div>
     `;
-    document.body.insertAdjacentHTML('beforeend', DOMPurify.sanitize(steamcitoMenu));
+  document.body.insertAdjacentHTML('beforeend', DOMPurify.sanitize(steamcitoMenu));
 }
 
 function getReviewLink() {
-    chromeLink = `<a href="https://chrome.google.com/webstore/detail/steamcito-steam-con-impue/fcjljapncagfmfhdkccgnbkgdpbcefcj" target="_blank">Valorá Steamcito en Chrome Store ⭐</a> `;
-    firefoxLink = `<a href="https://addons.mozilla.org/es/firefox/addon/steamcito-steam-impuestos-arg/" target="_blank">¡Valorá Steamcito en Firefox Addons!</a>`;
-    return navigator.userAgent.indexOf('Firefox') != -1 ? firefoxLink : chromeLink;
+  chromeLink = `<a href="https://chrome.google.com/webstore/detail/steamcito-steam-con-impue/fcjljapncagfmfhdkccgnbkgdpbcefcj" target="_blank">Valorá Steamcito en Chrome Store ⭐</a> `;
+  firefoxLink = `<a href="https://addons.mozilla.org/es/firefox/addon/steamcito-steam-impuestos-arg/" target="_blank">¡Valorá Steamcito en Firefox Addons!</a>`;
+  return navigator.userAgent.indexOf('Firefox') != -1 ? firefoxLink : chromeLink;
 }
 
-function setInitialLocalStates(){
-    localStorage.getItem('national-tax') && localStorage.getItem('national-tax') != '0' ? nationalTax.value = localStorage.getItem('national-tax') : localStorage.setItem('national-tax',21);
-    localStorage.getItem('province-tax') ? provinceTax.value=localStorage.getItem('province-tax') : localStorage.removeItem('province-tax');
-    localStorage.getItem('manual-mode') ? selectManualMode.value=localStorage.getItem('manual-mode') : localStorage.removeItem('manual-mode');
-    localStorage.getItem('estilo-barra') ? selectBarStyle.value=localStorage.getItem('estilo-barra') : localStorage.removeItem('estilo-barra');
-    localStorage.getItem('metodo-de-pago') != "steamcito-cotizacion-tarjeta" ? localStorage.setItem('metodo-de-pago','steamcito-cotizacion-tarjeta') : "" ;
-    localStorage.getItem('ocultar-crypto') ? checkboxDolarCrypto.value=localStorage.getItem('ocultar-crypto') : localStorage.removeItem('ocultar-crypto');
-    localStorage.getItem('ocultar-orgullo-argentino') ? checkboxOrgulloArgentino.value=localStorage.getItem('ocultar-orgullo-argentino') : localStorage.removeItem('ocultar-orgullo-argentino');
+function setInitialLocalStates() {
+  localStorage.getItem('national-tax') && localStorage.getItem('national-tax') != '0'
+    ? (nationalTax.value = localStorage.getItem('national-tax'))
+    : localStorage.setItem('national-tax', 21);
+  localStorage.getItem('province-tax')
+    ? (provinceTax.value = localStorage.getItem('province-tax'))
+    : localStorage.removeItem('province-tax');
+  localStorage.getItem('manual-mode')
+    ? (selectManualMode.value = localStorage.getItem('manual-mode'))
+    : localStorage.removeItem('manual-mode');
+  localStorage.getItem('estilo-barra')
+    ? (selectBarStyle.value = localStorage.getItem('estilo-barra'))
+    : localStorage.removeItem('estilo-barra');
+  localStorage.getItem('metodo-de-pago') != 'steamcito-cotizacion-tarjeta'
+    ? localStorage.setItem('metodo-de-pago', 'steamcito-cotizacion-tarjeta')
+    : '';
+  localStorage.getItem('ocultar-crypto')
+    ? (checkboxDolarCrypto.value = localStorage.getItem('ocultar-crypto'))
+    : localStorage.removeItem('ocultar-crypto');
+  localStorage.getItem('ocultar-orgullo-argentino')
+    ? (checkboxOrgulloArgentino.value = localStorage.getItem('ocultar-orgullo-argentino'))
+    : localStorage.removeItem('ocultar-orgullo-argentino');
 }
 
-function changeBarStyleState(){
-    selectBarStyle.value == 'barra-normal' ? localStorage.setItem('estilo-barra','barra-normal') : localStorage.setItem('estilo-barra','barra-minificada');
-    let style = selectBarStyle.value;
-    if (style == 'barra-normal') localStorage.setItem('estilo-barra','barra-normal');
-    if (style == 'barra-oculta') localStorage.setItem('estilo-barra','barra-oculta');
-    if (style == 'barra-minificada') localStorage.setItem('estilo-barra','barra-minificada');
+function changeBarStyleState() {
+  selectBarStyle.value == 'barra-normal'
+    ? localStorage.setItem('estilo-barra', 'barra-normal')
+    : localStorage.setItem('estilo-barra', 'barra-minificada');
+  let style = selectBarStyle.value;
+  if (style == 'barra-normal') localStorage.setItem('estilo-barra', 'barra-normal');
+  if (style == 'barra-oculta') localStorage.setItem('estilo-barra', 'barra-oculta');
+  if (style == 'barra-minificada') localStorage.setItem('estilo-barra', 'barra-minificada');
 }
 
-function changePaymentMethodState(e){
-    let value = e?.currentTarget?.value || e
+function changePaymentMethodState(e) {
+  let value = e?.currentTarget?.value || e;
 
-    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta')).taxAmount || 21 
+  let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta')).taxAmount || 21;
 
+  localStorage.setItem('metodo-de-pago', value);
+  switch (value) {
+    case 'steamcito-cotizacion-tarjeta':
+      localStorage.setItem('national-tax', tarjetaTax);
+      nationalTax.value = tarjetaTax;
+      break;
 
-    localStorage.setItem('metodo-de-pago', value)
-    switch (value) {
-        case "steamcito-cotizacion-tarjeta": 
-            localStorage.setItem('national-tax',tarjetaTax)
-            nationalTax.value = tarjetaTax;
-            break;
+    case 'steamcito-cotizacion-crypto':
+      localStorage.setItem('national-tax', tarjetaTax);
+      localStorage.setItem('metodo-de-pago', 'steamcito-cotizacion-tarjeta');
+      nationalTax.value = tarjetaTax;
+      break;
 
-        case "steamcito-cotizacion-crypto": 
-            localStorage.setItem('national-tax',tarjetaTax)
-            localStorage.setItem('metodo-de-pago','steamcito-cotizacion-tarjeta');
-            nationalTax.value = tarjetaTax;
-            break;            
- 
-        case "steamcito-cotizacion-mep": 
-            localStorage.setItem('national-tax',tarjetaTax)
-            localStorage.setItem('metodo-de-pago','steamcito-cotizacion-tarjeta');
+    case 'steamcito-cotizacion-mep':
+      localStorage.setItem('national-tax', tarjetaTax);
+      localStorage.setItem('metodo-de-pago', 'steamcito-cotizacion-tarjeta');
 
-            nationalTax.value = tarjetaTax;
-            break;                    
+      nationalTax.value = tarjetaTax;
+      break;
 
-        default: localStorage.setItem('national-tax',nationalTax)
-            break;
-    }
+    default:
+      localStorage.setItem('national-tax', nationalTax);
+      break;
+  }
 }
 
 function changeDolarCryptoVisibility() {
-    checkboxDolarCrypto.value == 'mostrar' ? localStorage.setItem('ocultar-crypto','mostrar') : localStorage.setItem('ocultar-crypto','ocultar');
+  checkboxDolarCrypto.value == 'mostrar'
+    ? localStorage.setItem('ocultar-crypto', 'mostrar')
+    : localStorage.setItem('ocultar-crypto', 'ocultar');
 }
 
 function changeJuegosArgentinosVisibility() {
-    checkboxOrgulloArgentino.value == 'mostrar' ? localStorage.setItem('ocultar-orgullo-argentino','mostrar') : localStorage.setItem('ocultar-orgullo-argentino','ocultar');
+  checkboxOrgulloArgentino.value == 'mostrar'
+    ? localStorage.setItem('ocultar-orgullo-argentino', 'mostrar')
+    : localStorage.setItem('ocultar-orgullo-argentino', 'ocultar');
 }
 
 function changeManualModeState() {
-    if (!selectManualMode.value) {
-        localStorage.removeItem('manual-mode')
-    } else {
-        selectManualMode.value == 'mate' ? localStorage.setItem('manual-mode', 'mate') : localStorage.setItem('manual-mode', 'wallet');
-    }
-    
+  if (!selectManualMode.value) {
+    localStorage.removeItem('manual-mode');
+  } else {
+    selectManualMode.value == 'mate'
+      ? localStorage.setItem('manual-mode', 'mate')
+      : localStorage.setItem('manual-mode', 'wallet');
+  }
 }
 
 function changeNationalTax() {
-    localStorage.setItem('national-tax', this.value);
+  localStorage.setItem('national-tax', this.value);
 }
 
 function changeProvinceTax() {
-    localStorage.setItem('province-tax', this.value);
+  localStorage.setItem('province-tax', this.value);
 }
 
 function showMenu(e) {
-    menu.classList.add('enabled');
-    menuBackground.classList.add('menu-steamcito-background-enabled');
-    document.body.classList.add('menu-enabled');
-    document.addEventListener('click', hideMenu);
+  menu.classList.add('enabled');
+  menuBackground.classList.add('menu-steamcito-background-enabled');
+  document.body.classList.add('menu-enabled');
+  document.addEventListener('click', hideMenu);
 }
 
 function hideMenu(e) {
-    if (!menu.contains(e.target) && !steamcitoIcon.contains(e.target)) {
-        menu.classList.remove('enabled');
-        menuBackground.classList.remove('menu-steamcito-background-enabled');
-        document.body.classList.remove('menu-enabled');
-        document.removeEventListener('click', hideMenu);
-    }
+  if (!menu.contains(e.target) && !steamcitoIcon.contains(e.target)) {
+    menu.classList.remove('enabled');
+    menuBackground.classList.remove('menu-steamcito-background-enabled');
+    document.body.classList.remove('menu-enabled');
+    document.removeEventListener('click', hideMenu);
+  }
 }
 
-function setEmojis(){
-
-    let paymentMethod = localStorage.getItem('metodo-de-pago') || "steamcito-cotizacion-tarjeta";
-    if(paymentMethod == "steamcito-cotizacion"){
-        return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>']
-    } else if(paymentMethod == "steamcito-cotizacion-crypto"){
-        return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>']
-    } else if(paymentMethod == "steamcito-cotizacion-mep"){
-        return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>']   
-    } 
-    return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>'];        
+function setEmojis() {
+  let paymentMethod = localStorage.getItem('metodo-de-pago') || 'steamcito-cotizacion-tarjeta';
+  if (paymentMethod == 'steamcito-cotizacion') {
+    return ['<span class="emojis">🧉</span>', '<span class="emojis">💲</span>'];
+  } else if (paymentMethod == 'steamcito-cotizacion-crypto') {
+    return ['<span class="emojis">🧉</span>', '<span class="emojis">💲</span>'];
+  } else if (paymentMethod == 'steamcito-cotizacion-mep') {
+    return ['<span class="emojis">🧉</span>', '<span class="emojis">💲</span>'];
+  }
+  return ['<span class="emojis">🧉</span>', '<span class="emojis">💲</span>'];
 }
 
-// Inicializo Menú 
+// Inicializo Menú
 createMenus();
 
 // Selecciono los botones del menú y les asigno eventos
-const menu = document.querySelector(".menu-steamcito");
-const menuBackground = document.querySelector(".menu-steamcito-background");
+const menu = document.querySelector('.menu-steamcito');
+const menuBackground = document.querySelector('.menu-steamcito-background');
 
-const steamcitoIcon = document.querySelector(".ico-steamcito");
-let selectManualMode = document.querySelector("#modo-manual");
-let selectBarStyle = document.querySelector("#estilo-barra");
+const steamcitoIcon = document.querySelector('.ico-steamcito');
+let selectManualMode = document.querySelector('#modo-manual');
+let selectBarStyle = document.querySelector('#estilo-barra');
 let selectPaymentMethod = document.querySelector('#metodo-de-pago-opciones');
-let checkboxDolarCrypto = document.querySelector("#ocultar-crypto");
-let checkboxOrgulloArgentino = document.querySelector("#ocultar-orgullo-argentino");
+let checkboxDolarCrypto = document.querySelector('#ocultar-crypto');
+let checkboxOrgulloArgentino = document.querySelector('#ocultar-orgullo-argentino');
 
 selectManualMode.addEventListener('input', changeManualModeState);
-selectBarStyle.addEventListener('input',changeBarStyleState);
+selectBarStyle.addEventListener('input', changeBarStyleState);
 selectPaymentMethod.addEventListener('input', changePaymentMethodState);
 checkboxDolarCrypto.addEventListener('change', changeDolarCryptoVisibility);
 checkboxOrgulloArgentino.addEventListener('change', changeJuegosArgentinosVisibility);
 
-let nationalTax = document.querySelector("#national-tax");
+let nationalTax = document.querySelector('#national-tax');
 nationalTax.addEventListener('input', changeNationalTax);
 
-let provinceTax = document.querySelector("#province-tax");
+let provinceTax = document.querySelector('#province-tax');
 provinceTax.addEventListener('input', changeProvinceTax);
 
 // Seteo el estado inicial de payment y emojis
@@ -271,4 +289,3 @@ setInitialLocalStates();
 const emojis = setEmojis();
 const emojiMate = emojis[0];
 const emojiWallet = emojis[1];
-

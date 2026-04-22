@@ -1,0 +1,11 @@
+{
+  "name": "steamcito-firefox",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write ./firefox_extension/js/*.js"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3"
+  }
+}
+

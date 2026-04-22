@@ -1,18 +1,18 @@
 // Corro función por primera vez
 (() => {
-  setTimeout(async function(){
+  setTimeout(async function () {
     await getUsdExchangeRate();
-    getPrices("standard");
-  
+    getPrices('standard');
+
     // Trigger recursivo
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-    const observer = new MutationObserver(function(mutations, observer) {
-      getPrices("standard");
+    const observer = new MutationObserver(function (mutations, observer) {
+      getPrices('standard');
     });
-  
+
     observer.observe(document, {
       subtree: true,
-      attributes: true
+      attributes: true,
     });
-  },1500)
+  }, 1500);
 })();
