@@ -1369,13 +1369,27 @@ body {
 
     .regional-meter-reason--orange {
       color: #e68f0d;
-    }    
+    }
+
+    .regional-meter-reason--violet {
+      color: #9b59b6;
+    }
   }
 
   .DRM_notice {
     font-size: 12px;
     a {
       color: #fff !important;
+      text-decoration: underline;
+    }
+  }
+
+  .regional-meter-disclaimer {
+    font-size: 11px !important;
+    color: #8f98a0 !important;
+    margin-top: 16px;
+    a {
+      color: #8f98a0 !important;
       text-decoration: underline;
     }
   }
@@ -1388,6 +1402,17 @@ body {
 
   .heading_steamcito_1{
     order: -6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span{
+      opacity: 0.5;
+      font-family: "Motiva Sans", Sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+
+    }
   }
 
   .content_steamcito_1{
@@ -1485,6 +1510,15 @@ body {
     padding-top: 5px;
     margin: 0 3px;
     min-width: fit-content;
+
+    &--excellent {
+      border-color: #71f569;
+      color: #71f569;
+
+      &.regional-meter-bar--selected::before {
+        border-top: 12px solid #71f569;
+      }
+    }
 
     &--cheap {
       border-color: #84b114;
