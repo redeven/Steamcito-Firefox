@@ -105,6 +105,21 @@ const renderArgentinaIndicator = (matchingGame) => {
 }
 
 
+const admirePublisher = (publisher) => {
+
+    const phrases = [
+        `¡Te queremos mucho ${publisher}!`,
+        `¡Te amamos ${publisher}!`,
+        `¡Tenés que cerrar el estadio ${publisher}!`,
+        `¡Genio ${publisher}!`,
+        `¡Gracias ${publisher}!`,
+        `¡Bien ahí ${publisher}!`,
+        `¡Sos groso ${publisher}!`
+    ]
+
+    return phrases[Math.floor(Math.random() * phrases.length)];
+}
+
 const criticizePublisher = (margin,publisher) => {
 
     const phrases = [
@@ -135,7 +150,7 @@ const getExchangeRate = async () => {
     let exchangeRateCryptoDate = JSON.parse(localStorage.getItem('steamcito-cotizacion-crypto'))?.rateDateProvided;
     let exchangeRateMep = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.rate;
     let exchangeRateMepDate = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.rateDateProvided;
-    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.taxAmount || 60
+    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.taxAmount || 21
     let cryptoTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-crypto'))?.taxAmount || 0
     let mepTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.taxAmount || 21
 
@@ -208,6 +223,11 @@ const getAppPricing = async (appInitialData) => {
 
         appData.baseRecommendedArsPrice = baseRecommendedArsPrice;
 
+        const pppPrice = regionalPricingChartLatamPPP
+            .filter(item => item.usdPrice == nearestOption)
+            .map(item => item.argPrice)[0] * (100 - appData.discount) / 100;
+        appData.pppPrice = pppPrice;
+
         // Tiene el mismo precio que en Estados Unidos
         if (appData.arsPrice == appData.usdPrice) {
             appData.regionalDifference = 0;
@@ -227,6 +247,16 @@ const getAppPricing = async (appInitialData) => {
             appData.regionalStatus = "fair";
             appData.regionalDifference = 0;
         }
+
+        // Excellent: precio dentro del 20% del PPP
+        if (appData.pppPrice && appData.regionalStatus !== "expensive") {
+            const pppDifference = Math.abs(appData.arsPrice - appData.pppPrice) / appData.pppPrice;
+            if (pppDifference <= 0.20) {
+                appData.regionalStatus = "excellent";
+                appData.pppDifference = Math.round(pppDifference * 100);
+            }
+        }
+
 
         renderRegionalIndicator(appData, exchangeRate);
         if(walletBalance < appData.arsPrice && localStorage.getItem('metodo-de-pago') != "steamcito-cotizacion-crypto"){
@@ -278,16 +308,16 @@ const renderCryptoPrice = async (appData) => {
 
             <div class="steamcito_saving_tip_text">
                 <p class="steamcito_saving_tip_text_main">
-                    <span class="steamcito_saving_tip_green">Precio con Astropay: ${numberToString(cryptoPrice)}</span>
+                    <span class="steamcito_saving_tip_green">Precio con Astropay Local: ${numberToString((cardPrice * 0.9).toFixed(2))}</span>
                     <br>
                     <span class="steamcito_saving_tip_amount">
-                        Ahorro total: ${numberToString(difference)}
+                        Promoción de 10% de reintegro
                     </span>
                 </p>
             </div>
             
             <span class="steamcito_crypto_exchangerate">
-                1 USD = ${cryptoExchangeRate.toFixed(2)} ARS
+                1 USD = ${(exchangeRate * 0.9).toFixed(2)} ARS
                 <br>
                 <span class="steamcito_crypto_exchangerate_date">(${cryptoExchangeRateDate})<span>
             </span>       
@@ -327,32 +357,18 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
 
     let container = `
         <div class="block responsive_apppage_details_right heading heading_steamcito_3">
-            ¿Cuál es tu método de pago?
+            Cotización del dólar
         </div>
 
         <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper cotizacion-wrapper ${indicatorStyle} content_steamcito_3">
-
-            <p class="reason for dolar_crypto">
-                <span class="name-span">Astropay: 1 USD ≈ ${exchangeRateCrypto.toFixed(2)} ARS</span>
-                <br>
-                <span class="name-smaller">
-                   ${cryptoTax || cryptoTax == 0 ? `Incluye ${cryptoTax}% de impuestos (${exchangeRateCryptoDate}) ` : ""} 
-                </span><br>
-                ${localStorage.getItem('metodo-de-pago') == "steamcito-cotizacion-crypto"
-                    ?
-                    `<span class="name-smaller name-smaller-green">Método de pago seleccionado</span>`
-                    :
-                    ""
-                }
-
-            </p>
-            <br>
             
             <p class="reason for dolar_tarjeta">
-                <span class="name-span">Tarjeta en pesos: 1 USD ≈ ${exchangeRate.toFixed(2)} ARS</span>
+
+                <span class="name-span">Tarjeta: 1 USD ≈ ${exchangeRate.toFixed(2)} ARS</span>
                 <br>
                 <span class="name-smaller">
-                   ${tarjetaTax ? `Incluye ${tarjetaTax}% de impuestos (${exchangeRateDate}) ` : ""} 
+                   ${tarjetaTax ? `Incluye ${tarjetaTax}% de impuestos (${exchangeRateDate}) ` : ""}  <br>
+                   Aplica a todas las tarjetas emitidas en Argentina.
                 </span><br>
                 ${localStorage.getItem('metodo-de-pago') == "steamcito-cotizacion-tarjeta"
                     ?
@@ -363,25 +379,9 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
             </p>
             <br>
 
-            <p class="reason for dolar_mep">
-                <span class="name-span">Tarjeta en dólares: 1 USD ≈ ${exchangeRateMep.toFixed(2)} ARS</span>
-                <br>
-                <span class="name-smaller">
-                   ${mepTax ? `Incluye ${mepTax}% de impuestos (${exchangeRateMepDate}) ` : ""} 
-                </span><br>
-                ${localStorage.getItem('metodo-de-pago') == "steamcito-cotizacion-mep"
-                    ?
-                    `<span class="name-smaller name-smaller-green">Método de pago seleccionado</span>`
-                    :
-                    ""
-                }
-
-            </p>
-
             <div class="DRM_notice">
                 <div>
-                    Conocé cómo pagar con cada método en <br>
-                    <a href="https://steamcito.com.ar/mejor-metodo-de-pago-steam-argentina?ref=steamcito-cotizaciones" target="_blank">Guía - Mejor método de pago en Steam</a>
+                    <a href="https://steamcito.com.ar/mejor-metodo-de-pago-steam-argentina?ref=steamcito-cotizaciones" target="_blank">Ver más información sobre cotizaciones</a>
                 </div>
             </div>
 
@@ -408,7 +408,7 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
 const renderPriceIndicators = (appData) => {
     return(`
         <p class="reason info">
-            Precio sugerido por Valve en Argentina <br><span class="regional-meter-price">ARS$ ${appData.recommendedArsPrice.toFixed(2)}</span>
+            Precio sugerido para Argentina <br><span class="regional-meter-price">ARS$ ${appData.recommendedArsPrice.toFixed(2)}</span>
             ${appData.discount != 0 
                 ?
                 `<span class="regional-meter-price steamcito-strikethrough-price">ARS$ ${appData.baseRecommendedArsPrice}</span>`
@@ -439,6 +439,9 @@ const renderPriceIndicators = (appData) => {
     `)
 }
 
+
+
+
 const renderRegionalIndicator = (appData, exchangeRate) => {
     if (indicatorStyle == "barra-oculta") {
         return;
@@ -449,21 +452,25 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     let container =
         `
     <div class="block responsive_apppage_details_right heading heading_steamcito_1">
-        ¿Cómo es el precio regional?
+        <p>Análisis de precio regional</p>    
+        <span>por Steamcito</span>
     </div>
     <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1">
         <div class="regional-meter-container">
+            <div class="regional-meter-bar regional-meter-bar--expensive ${appData.regionalStatus == "expensive" && "regional-meter-bar--selected"}">
+                <span>No tiene</span>
+            </div>
+            <div class="regional-meter-bar regional-meter-bar--semifair ${appData.regionalStatus == "semifair" && "regional-meter-bar--selected"}">
+                <span>Elevado</span>
+            </div>
+            <div class="regional-meter-bar regional-meter-bar--fair ${appData.regionalStatus == "fair" && "regional-meter-bar--selected"}">
+                <span>Bueno</span>
+            </div>
             <div class="regional-meter-bar regional-meter-bar--cheap ${appData.regionalStatus == "cheap" && "regional-meter-bar--selected"}">
                 <span>Muy bueno</span>
             </div>
-            <div class="regional-meter-bar regional-meter-bar--fair ${appData.regionalStatus == "fair" && "regional-meter-bar--selected"}">
-                <span>Normal</span>
-            </div>
-            <div class="regional-meter-bar regional-meter-bar--semifair ${appData.regionalStatus == "semifair" && "regional-meter-bar--selected"}">
-                <span>Alto</span>
-            </div>            
-            <div class="regional-meter-bar regional-meter-bar--expensive ${appData.regionalStatus == "expensive" && "regional-meter-bar--selected"}">
-                <span>Inexistente</span>
+            <div class="regional-meter-bar regional-meter-bar--excellent ${appData.regionalStatus == "excellent" && "regional-meter-bar--selected"}">
+                <span>Increíble</span>
             </div>
         </div>
 
@@ -567,6 +574,28 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
             : ""
         }
 
+
+
+        ${appData.regionalStatus == "excellent"
+            ?
+            `
+        <p class="reason for">
+        <span class="name-span">${appData.name}</span> tiene un precio regional extraordinario.
+        </p>
+        <hr>
+        <p class="reason for">
+        <span class="name-span">${appData.publisher}</span> cargó un precio basado en el índice de paridad de poder adquisitivo para nuestra región.
+        <br><br>
+        ${admirePublisher(appData.publisher)}
+        </p>
+        <hr>
+        ${renderPriceIndicators(appData)}
+
+        `
+            : ""
+        }
+
+
         ${appData.regionalStatus == "cheap"
             ?
             `
@@ -584,6 +613,9 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
         `
             : ""
         }
+
+        <p class="regional-meter-disclaimer">Análisis basado en la <a href="https://partner.steamgames.com/pricing/explorer" target="_blank">herramienta oficial de fijación de precios regionales de Valve.</a></p>
+
 
     </div>
 

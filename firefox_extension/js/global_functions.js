@@ -20,6 +20,10 @@ function getPrices(type){
             return renderCart();
         },1000)
     } 
+    else if(type == "search"){
+        const divs = findPricesInSearch();
+        divs.forEach(div => setArgentinaPrice(div));
+    }
     else if(type == "wishlist"){
         setInterval(() => {
             let divs = document.querySelectorAll('div.Panel div');
@@ -42,9 +46,9 @@ function setPaymentMethodName(){
     if(paymentMethod == "steamcito-cotizacion-tarjeta"){
         return "Tarjeta"
     } else if(paymentMethod == "steamcito-cotizacion-crypto"){
-        return "Astropay" 
+        return "Tarjeta" 
     } else if(paymentMethod == "steamcito-cotizacion-mep"){
-        return "Dólar Bancario"   
+        return "Tarjeta"   
     } 
     return "Tarjeta";
 }
@@ -52,8 +56,8 @@ function setPaymentMethodName(){
 function renderCart(){
     let paymentMethod = setPaymentMethodName();
     let exchangeRateTarjeta = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.rate;
-    let exchangeRateCrypto = JSON.parse(localStorage.getItem('steamcito-cotizacion-crypto'))?.rate;
-    let exchangeRateMep = JSON.parse(localStorage.getItem('steamcito-cotizacion-mep'))?.rate;
+    let exchangeRateCrypto = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.rate;
+    let exchangeRateMep = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.rate;
 
     if(!exchangeRateTarjeta || !exchangeRateMep || !exchangeRateCrypto){
         return;
@@ -124,7 +128,8 @@ function renderCart(){
             let cartTotalMixedContainer = document.querySelector('.steamcito_cart_mixed_value');
             let neededWalletAmount = totalWallet - walletBalance;
             let cryptoSavingsContainer = document.querySelector('.steamcito_crypto_savings');
-            let cryptoSavings = totalWithCurrentPaymentMethod - totalCrypto;
+            let cryptoSavings = totalWithCurrentPaymentMethod * 0.1;
+
 
             cartTotalWalletContainer.innerText = `${numberToStringUsd(totalWallet)}`
             cartTotalCurrentMethodContainer.innerText = `${numberToString(totalWithCurrentPaymentMethod)}`
@@ -132,7 +137,8 @@ function renderCart(){
 
             if(paymentMethod == "Tarjeta" && localStorage.getItem('ocultar-crypto') != "ocultar"){
                 cryptoSavingsContainer.style.display="block";
-                cryptoSavingsContainer.innerText = `Podés ahorrarte ${numberToString(cryptoSavings.toFixed(2))} en tu compra pagando con Astropay.`
+                cryptoSavingsContainer.innerText = `Podés ahorrarte ${numberToString(cryptoSavings.toFixed(2))} en tu compra pagando con Astropay Local.` 
+
             }
             else{
                 cryptoSavingsContainer.style.display="none";
@@ -250,10 +256,13 @@ function renderPrices(price){
 
     // Fix para contenedores que intercalan un BR entre precio original y precio en oferta 
     price.classList.contains("was") && sanitizePromoLists();
-    
+
+    // Los precios del bloque regional siempre se muestran inicialmente en USD
+    let forceUsd = price.classList.contains("regional-meter-price");
+
     // Si el saldo te alcanza para comprar el juego
-    if(walletBalance > parseFloat(price.dataset.originalPrice)){
-        price.innerHTML = DOMPurify.sanitize(originalPrice + emojiWallet);     
+    if(forceUsd || walletBalance > parseFloat(price.dataset.originalPrice)){
+        price.innerHTML = DOMPurify.sanitize(originalPrice + (forceUsd ? "" : emojiWallet));   
         price.classList.add("original");
 
         // Si tiene un descuento
@@ -471,6 +480,23 @@ function stringToDate(dateStr)
 		year:Number(dateArr[2])
 	};
 }
+
+function findPricesInSearch() {
+    const searchElements = document.querySelectorAll('div[id*=searchSuggestion] a.Focusable div');
+    const validPriceElements = [];
+
+    searchElements.forEach(element => {
+        if (element.querySelector('div')) return;
+        const text = element.innerText.trim();
+        const priceRegex = /^\$\d+\.\d{2}$/;
+        if (priceRegex.test(text)) {
+            validPriceElements.push(element);
+        }
+    });
+    // console.log('Elementos con precios válidos encontrados:', validPriceElements);
+    return validPriceElements;
+}
+
 
 getArgentinaGames();
 getOwnedGames();

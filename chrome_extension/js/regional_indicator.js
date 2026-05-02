@@ -122,6 +122,7 @@ const admirePublisher = (publisher) => {
     return phrases[Math.floor(Math.random() * phrases.length)];
 }
 
+
 const criticizePublisher = (margin,publisher) => {
 
     const phrases = [
