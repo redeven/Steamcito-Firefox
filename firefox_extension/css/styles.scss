@@ -1346,6 +1346,10 @@
       .regional-meter-reason--orange {
         color: #e68f0d;
       }
+      .regional-meter-reason--violet {
+        color: #9b59b6;
+      }
+
 
     }
   
@@ -1356,6 +1360,17 @@
         text-decoration: underline;
       }
     }
+
+    .regional-meter-disclaimer {
+      font-size: 11px !important;
+      color: #8f98a0 !important;
+      margin-top: 16px;
+      a {
+        color: #8f98a0 !important;
+        text-decoration: underline;
+      }
+    }
+
   }
   
   .rightcol.game_meta_data {
@@ -1368,6 +1383,18 @@
   }
   .rightcol.game_meta_data .heading_steamcito_1 {
     order: -6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span{
+      opacity: 0.5;
+      font-family: "Motiva Sans", Sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+
+    }
+
   }
   .rightcol.game_meta_data .content_steamcito_1 {
     order: -5;
@@ -1496,6 +1523,15 @@
         }
       }
   
+      &--excellent {
+        border-color: #71f569;
+        color: #71f569;
+
+        &.regional-meter-bar--selected::before {
+          border-top: 12px solid #71f569;
+        }
+      }
+
       &--selected {
         &::before {
           content: "";

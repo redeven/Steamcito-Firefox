@@ -256,10 +256,13 @@ function renderPrices(price){
 
     // Fix para contenedores que intercalan un BR entre precio original y precio en oferta 
     price.classList.contains("was") && sanitizePromoLists();
-    
+
+    // Los precios del bloque regional siempre se muestran inicialmente en USD
+    let forceUsd = price.classList.contains("regional-meter-price");
+
     // Si el saldo te alcanza para comprar el juego
-    if(walletBalance > parseFloat(price.dataset.originalPrice)){
-        price.innerHTML = DOMPurify.sanitize(originalPrice + emojiWallet);     
+    if(forceUsd || walletBalance > parseFloat(price.dataset.originalPrice)){
+        price.innerHTML = DOMPurify.sanitize(originalPrice + (forceUsd ? "" : emojiWallet));   
         price.classList.add("original");
 
         // Si tiene un descuento
